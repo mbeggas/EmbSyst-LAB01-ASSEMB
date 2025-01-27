@@ -72,7 +72,7 @@ void loop() {
 	.cseg
 	.org	0x00
 	clr	ledR			; clear led register
-	ldi	mask,(1<<PINB5)		; load 0001000 into mask register
+	ldi	mask,(1<<PINB5)		; load 00100000 into mask register (0x20)
 	out	DDRB,mask		; set PINB0 to output
 
 start:	eor	ledR,mask		; toggle PINB0 in led register

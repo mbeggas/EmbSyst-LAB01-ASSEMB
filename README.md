@@ -35,35 +35,39 @@ No external wiring is needed for this lab. The Arduino Uno's onboard LED is pre-
 ## Assembly Code
 
 ```asm
-.include "m328Pdef.inc"  ; Include ATmega328P definitions
+	.include "m328pdef.inc"
 
-.org 0x0000             ; Reset vector
-rjmp RESET              ; Jump to the RESET routine
+	.def	mask 	= r16		; mask register
+	.def	ledR 	= r17		; led register
+	.def	oLoopR 	= r18		; outer loop register
+	.def	iLoopRl = r24		; inner loop register low
+	.def	iLoopRh = r25		; inner loop register high
 
-.org 0x0040             ; Program code starts here
-RESET:
-    ; Set PB5 (Arduino Pin 13) as output
-    ldi r16, 0b00100000  ; Load bit 5 (PB5) as output
-    out DDRB, r16        ; Write to DDRB register
+	.equ	oVal 	= 71		; outer loop value
+	.equ	iVal 	= 28168		; inner loop value
 
-MAIN_LOOP:
-    ; Turn on LED
-    sbi PORTB, 5         ; Set PB5 (turn LED on)
-    rcall DELAY          ; Call delay subroutine
+	.cseg
+	.org	0x00
+	clr	ledR			; clear led register
+	ldi	mask,(1<<PINB5)		; load 00000001 into mask register
+	out	DDRB,mask		; set PINB0 to output
 
-    ; Turn off LED
-    cbi PORTB, 5         ; Clear PB5 (turn LED off)
-    rcall DELAY          ; Call delay subroutine
+start:	eor	ledR,mask		; toggle PINB0 in led register
+	out	PORTB,ledR		; write led register to PORTB
 
-    rjmp MAIN_LOOP       ; Repeat loop
+	ldi	oLoopR,oVal		; initialize outer loop count
 
-DELAY:
-    ldi r18, 0xFF        ; Outer loop counter
-DELAY_OUTER:
-    ldi r19, 0xFF        ; Inner loop counter
-DELAY_INNER:
-    dec r19              ; Decrement inner counter
-    brne DELAY_INNER     ; Repeat inner loop
-    dec r18              ; Decrement outer counter
-    brne DELAY_OUTER     ; Repeat outer loop
-    ret                  ; Return from subroutine
+oLoop:	
+	ldi	iLoopRl,LOW(iVal)	; intialize inner loop count in inner
+	ldi	iLoopRh,HIGH(iVal)	; loop high and low registers
+
+iLoop:	
+	sbiw	iLoopRl,1		; decrement inner loop registers
+	brne	iLoop			; branch to iLoop if iLoop registers != 0
+
+	dec	oLoopR			; decrement outer loop register
+	brne	oLoop			; branch to oLoop if outer loop register != 0
+
+	rjmp	start			; jump back to start
+
+```

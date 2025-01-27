@@ -31,7 +31,30 @@ To use AVRDUDE, upload HEX using Arduino IDE, set the upload mode to verbose in 
 No external wiring is needed for this lab. The Arduino Uno's onboard LED is pre-wired to **Pin 13 (PB5)**.
 
 ---
+## Arduino Code
+```c
+// Define the pin number for the built-in LED
+const int ledPin = 13; 
 
+void setup() {
+  // Set the LED pin as an output
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  // Turn the LED on
+  digitalWrite(ledPin, HIGH);
+  // Wait for 1 second (1000 milliseconds)
+  delay(1000);
+
+  // Turn the LED off
+  digitalWrite(ledPin, LOW);
+  // Wait for 1 second (1000 milliseconds)
+  delay(1000);
+}
+
+```
+---
 ## Assembly Code
 
 ```asm
@@ -49,7 +72,7 @@ No external wiring is needed for this lab. The Arduino Uno's onboard LED is pre-
 	.cseg
 	.org	0x00
 	clr	ledR			; clear led register
-	ldi	mask,(1<<PINB5)		; load 00000001 into mask register
+	ldi	mask,(1<<PINB5)		; load 0001000 into mask register
 	out	DDRB,mask		; set PINB0 to output
 
 start:	eor	ledR,mask		; toggle PINB0 in led register

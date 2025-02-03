@@ -94,3 +94,47 @@ iLoop:
 	rjmp	start			; jump back to start
 
 ```
+
+## AVR-C code
+
+# AVR-C LED Blink Example
+
+This example blinks an LED connected to **PB5** (pin 13 on the Arduino Uno) using an ATmega328P microcontroller.
+
+## Code
+
+```c
+#define F_CPU 16000000UL  // Define CPU clock speed (16 MHz for ATmega328P)
+#include <avr/io.h>
+#include <util/delay.h>
+
+int main(void) {
+    // Set PB5 (pin 13 on Arduino Uno) as an output
+    DDRB |= (1 << PB5);  
+
+    while (1) {
+        // Turn the LED on
+        PORTB |= (1 << PB5);
+        _delay_ms(1000);  // Wait for 1 second
+
+        // Turn the LED off
+        PORTB &= ~(1 << PB5);
+        _delay_ms(1000);  // Wait for 1 second
+    }
+
+    return 0;
+}
+```
+
+#### Explanation
+
+- F_CPU 16000000UL Defines the CPU frequency as 16 MHz, which is required for the delay routines in <util/delay.h>.
+
+- DDRB |= (1 << PB5) Configures PB5 (corresponding to digital pin 13 on the Arduino Uno) as an output.
+
+- PORTB |= (1 << PB5) Sets PB5 HIGH to turn the LED on.
+
+- PORTB &= ~(1 << PB5) Clears PB5 (sets it LOW) to turn the LED off.
+
+- _delay_ms(1000) Pauses execution for 1000 milliseconds (1 second).
+

@@ -97,11 +97,6 @@ iLoop:
 
 ## AVR-C code
 
-# AVR-C LED Blink Example
-
-This example blinks an LED connected to **PB5** (pin 13 on the Arduino Uno) using an ATmega328P microcontroller.
-
-## Code
 
 ```c
 #define F_CPU 16000000UL  // Define CPU clock speed (16 MHz for ATmega328P)

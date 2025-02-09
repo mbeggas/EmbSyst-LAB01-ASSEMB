@@ -1,4 +1,4 @@
-# Arduino Beginner Lab: LED Control with a Push Button
+# Lab 02: LED Control with a Push Button Using AVR Assembly And AVR-C on Arduino Uno
 
 ## Materials Required 🛠️
 - 1 Arduino board (UNO, Mega, Nano...)

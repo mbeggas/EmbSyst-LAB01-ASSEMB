@@ -1,4 +1,4 @@
-# Lab 1: Blinking an LED Using AVR Assembly on Arduino Uno
+# Lab 1: Blinking an LED Using AVR Assembly And AVR-C on Arduino Uno
 
 ## Objective
 This lab demonstrates how to use AVR assembly to control the GPIO pins of the ATmega328P microcontroller on an Arduino Uno. Specifically, you will blink the onboard LED (connected to **Pin 13**, or **PB5**).
